@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Spline from '@splinetool/react-spline';
+import SafeSpline from './SafeSpline';
 
 // 3D visual of the smart insole using a Spline scene
 // Mounted client-side to avoid hydration issues that can cause blank screens.
@@ -9,14 +9,10 @@ export default function Insole3D() {
 
   return (
     <section className="relative w-full min-h-[520px] rounded-2xl overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 shadow-xl">
-      <div className="absolute inset-0">
-        {mounted && (
-          <Spline
-            scene="https://prod.spline.design/8d8oP0dZ2eR5wCjA/scene.splinecode"
-            style={{ width: '100%', height: '100%' }}
-          />
-        )}
-      </div>
+      {/* Spline canvas */}
+      {mounted && (
+        <SafeSpline scene="https://prod.spline.design/8d8oP0dZ2eR5wCjA/scene.splinecode" />
+      )}
 
       {/* Non-blocking visual accents */}
       <div className="pointer-events-none absolute inset-0">
@@ -37,6 +33,13 @@ export default function Insole3D() {
           Explore the insole model in 3D. Rotate, pan, and zoom to examine sensor placement and form factor.
         </p>
       </div>
+
+      {/* Lightweight loading shimmer while mounting on client */}
+      {!mounted && (
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="h-12 w-12 rounded-full bg-cyan-400/20 animate-pulse" />
+        </div>
+      )}
     </section>
   );
 }
