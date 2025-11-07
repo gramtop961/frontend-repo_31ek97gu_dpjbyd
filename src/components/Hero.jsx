@@ -1,29 +1,75 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Rocket, Shield, LineChart } from 'lucide-react';
-import Spline from '@splinetool/react-spline';
+
+// Lightweight error boundary to prevent a full-app crash if Spline fails
+class SafeBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false };
+  }
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+  componentDidCatch() {
+    // no-op: avoid logging noise in sandbox
+  }
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div className="h-full w-full bg-gradient-to-b from-slate-900 via-slate-950 to-black" />
+      );
+    }
+    return this.props.children;
+  }
+}
 
 const Hero = () => {
   const [mounted, setMounted] = useState(false);
+  const [SplineComp, setSplineComp] = useState(null);
+
+  // Mount flag to avoid hydration issues
   useEffect(() => {
     setMounted(true);
   }, []);
 
+  // Dynamically import Spline only on the client to avoid SSR/hydration edge cases
+  useEffect(() => {
+    let active = true;
+    if (mounted && !SplineComp) {
+      import('@splinetool/react-spline')
+        .then((m) => {
+          if (active) setSplineComp(() => m.default);
+        })
+        .catch(() => {
+          // Swallow import errors; fallback background will render
+        });
+    }
+    return () => {
+      active = false;
+    };
+  }, [mounted, SplineComp]);
+
   return (
     <section className="relative min-h-[90vh] w-full overflow-hidden bg-slate-950 text-white">
+      {/* 3D background layer */}
       <div className="absolute inset-0">
-        {mounted ? (
-          <Spline
-            scene="https://prod.spline.design/X0jXGc9p9sKQFk2B/scene.splinecode"
-            style={{ width: '100%', height: '100%' }}
-          />
+        {mounted && SplineComp ? (
+          <SafeBoundary>
+            <SplineComp
+              scene="https://prod.spline.design/X0jXGc9p9sKQFk2B/scene.splinecode"
+              style={{ width: '100%', height: '100%' }}
+            />
+          </SafeBoundary>
         ) : (
           <div className="h-full w-full bg-gradient-to-b from-slate-900 via-slate-950 to-black" />
         )}
       </div>
 
+      {/* Soft vignette that doesn't block interactions */}
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(2,6,23,0)_0%,rgba(2,6,23,0.6)_45%,rgba(2,6,23,0.9)_100%)]" />
 
+      {/* Foreground content */}
       <div className="relative mx-auto flex max-w-7xl flex-col items-center px-6 pt-28 text-center md:pt-36">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
