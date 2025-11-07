@@ -1,16 +1,21 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Spline from '@splinetool/react-spline';
 
 // 3D visual of the smart insole using a Spline scene
-// The overlay provides subtle gradients without blocking interactions.
+// Mounted client-side to avoid hydration issues that can cause blank screens.
 export default function Insole3D() {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+
   return (
     <section className="relative w-full min-h-[520px] rounded-2xl overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 shadow-xl">
       <div className="absolute inset-0">
-        <Spline
-          scene="https://prod.spline.design/8d8oP0dZ2eR5wCjA/scene.splinecode"
-          style={{ width: '100%', height: '100%' }}
-        />
+        {mounted && (
+          <Spline
+            scene="https://prod.spline.design/8d8oP0dZ2eR5wCjA/scene.splinecode"
+            style={{ width: '100%', height: '100%' }}
+          />
+        )}
       </div>
 
       {/* Non-blocking visual accents */}

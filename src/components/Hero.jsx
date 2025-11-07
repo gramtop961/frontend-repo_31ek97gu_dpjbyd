@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Spline from '@splinetool/react-spline';
+import SafeSpline from './SafeSpline';
 
 export default function Hero() {
   const [mounted, setMounted] = useState(false);
@@ -7,15 +7,12 @@ export default function Hero() {
 
   return (
     <section className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 p-8 md:p-12 min-h-[620px]">
-      <div className="absolute inset-0">
-        {mounted && (
-          <Spline
-            scene="https://prod.spline.design/Z4mFOe-VPbTX4W76/scene.splinecode"
-            style={{ width: '100%', height: '100%' }}
-          />
-        )}
-      </div>
+      {/* Spline canvas */}
+      {mounted && (
+        <SafeSpline scene="https://prod.spline.design/Z4mFOe-VPbTX4W76/scene.splinecode" />
+      )}
 
+      {/* Content */}
       <div className="relative z-10 max-w-3xl">
         <span className="inline-flex items-center gap-2 text-xs uppercase tracking-wider text-cyan-300/90 bg-cyan-300/10 ring-1 ring-cyan-300/20 px-2.5 py-1 rounded-full w-max">
           3D Interactive
@@ -44,6 +41,13 @@ export default function Hero() {
         <div className="absolute right-[-10%] top-[10%] h-72 w-72 rounded-full bg-cyan-500/10 blur-3xl" />
         <div className="absolute left-[-10%] bottom-[10%] h-72 w-72 rounded-full bg-fuchsia-500/10 blur-3xl" />
       </div>
+
+      {/* Lightweight loading shimmer while mounting on client */}
+      {!mounted && (
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="h-12 w-12 rounded-full bg-cyan-400/20 animate-pulse" />
+        </div>
+      )}
     </section>
   );
 }
