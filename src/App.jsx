@@ -1,42 +1,49 @@
 import React from 'react';
 import Hero from './components/Hero';
-import Features from './components/Features';
-import HowItWorks from './components/HowItWorks';
-import Contact from './components/Contact';
+import Insole3D from './components/Insole3D';
+import PressureMap from './components/PressureMap';
+import SensorAnalytics from './components/SensorAnalytics';
+import AnalysisPanel from './components/AnalysisPanel';
 
-function App() {
+export default function App() {
   return (
-    <div className="min-h-screen w-full bg-white text-slate-900">
-      <header className="fixed inset-x-0 top-0 z-50 border-b border-white/10 bg-slate-950/70 backdrop-blur">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 text-white">
-          <a href="#" className="text-lg font-semibold tracking-tight">InStep Golf AI</a>
-          <nav className="hidden gap-6 text-sm text-white/80 md:flex">
-            <a href="#features" className="hover:text-white">Features</a>
-            <a href="#how" className="hover:text-white">How it works</a>
-            <a href="#contact" className="hover:text-white">Contact</a>
+    <div className="min-h-screen bg-slate-950 text-slate-100">
+      <header className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <div className="h-8 w-8 rounded-lg bg-cyan-400" />
+            <span className="font-semibold text-white">Insole AI</span>
+          </div>
+          <nav className="hidden sm:flex items-center gap-4 text-sm text-slate-300">
+            <a href="#insole3d" className="hover:text-white">3D</a>
+            <a href="#pressure" className="hover:text-white">Pressure</a>
+            <a href="#analytics" className="hover:text-white">Analytics</a>
           </nav>
-          <a href="#contact" className="rounded-lg bg-emerald-500 px-4 py-2 text-sm font-medium text-slate-900 shadow-md shadow-emerald-500/20 hover:bg-emerald-400">
-            Join pilot
-          </a>
         </div>
       </header>
 
-      <main className="pt-16">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10 pb-16">
         <Hero />
-        <Features />
-        <div id="how">
-          <HowItWorks />
-        </div>
-        <Contact />
+
+        <section id="insole3d">
+          <Insole3D />
+        </section>
+
+        <section id="pressure" className="grid gap-6">
+          <PressureMap />
+        </section>
+
+        <section id="analytics" className="grid gap-6">
+          <SensorAnalytics />
+          <AnalysisPanel />
+        </section>
       </main>
 
-      <footer className="border-t border-slate-200 bg-white py-10 text-center text-sm text-slate-600">
-        <div className="mx-auto max-w-7xl px-6">
-          <p>© {new Date().getFullYear()} InStep Golf AI. Built in India for Indian golf.</p>
+      <footer className="border-t border-white/10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 text-sm text-slate-400">
+          © {new Date().getFullYear()} Insole AI. All rights reserved.
         </div>
       </footer>
     </div>
   );
 }
-
-export default App;
