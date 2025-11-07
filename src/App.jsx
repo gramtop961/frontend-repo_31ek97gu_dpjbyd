@@ -3,7 +3,6 @@ import Hero from './components/Hero';
 import Insole3D from './components/Insole3D';
 import PressureMap from './components/PressureMap';
 import SensorAnalytics from './components/SensorAnalytics';
-import AnalysisPanel from './components/AnalysisPanel';
 
 export default function App() {
   return (
@@ -35,7 +34,6 @@ export default function App() {
 
         <section id="analytics" className="grid gap-6">
           <SensorAnalytics />
-          <AnalysisPanel />
         </section>
       </main>
 
