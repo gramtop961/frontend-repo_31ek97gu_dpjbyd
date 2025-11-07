@@ -1,16 +1,25 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Rocket, Shield, LineChart } from 'lucide-react';
 import Spline from '@splinetool/react-spline';
 
 const Hero = () => {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   return (
     <section className="relative min-h-[90vh] w-full overflow-hidden bg-slate-950 text-white">
       <div className="absolute inset-0">
-        <Spline
-          scene="https://prod.spline.design/X0jXGc9p9sKQFk2B/scene.splinecode"
-          style={{ width: '100%', height: '100%' }}
-        />
+        {mounted ? (
+          <Spline
+            scene="https://prod.spline.design/X0jXGc9p9sKQFk2B/scene.splinecode"
+            style={{ width: '100%', height: '100%' }}
+          />
+        ) : (
+          <div className="h-full w-full bg-gradient-to-b from-slate-900 via-slate-950 to-black" />
+        )}
       </div>
 
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(2,6,23,0)_0%,rgba(2,6,23,0.6)_45%,rgba(2,6,23,0.9)_100%)]" />
@@ -39,7 +48,7 @@ const Hero = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 0.8 }}
-          className="mx-auto mt-6 max-w-2xl text-balance text-lg text-white/80"
+          className="mx-auto mt-6 max-w-2xl text-lg text-white/80"
         >
           Enhance performance, reduce injury risks, and elevate Golf in India with science‑backed analytics built for players and coaches.
         </motion.p>

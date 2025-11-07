@@ -1,5 +1,5 @@
 import React from 'react';
-import { Activity, Footprints, Gauge, Cpu } from 'lucide-react';
+import { Activity, LineChart, Gauge, Cpu } from 'lucide-react';
 
 const FeatureCard = ({ icon: Icon, title, description }) => (
   <div className="rounded-2xl border border-slate-200/80 bg-white/60 p-6 shadow-sm backdrop-blur-sm">
@@ -14,7 +14,7 @@ const FeatureCard = ({ icon: Icon, title, description }) => (
 const Features = () => {
   const featureList = [
     {
-      icon: Footprints,
+      icon: LineChart,
       title: 'Pressure Mapping',
       description:
         'High‑resolution plantar pressure sensing tracks weight transfer and balance through every phase of your swing.',
